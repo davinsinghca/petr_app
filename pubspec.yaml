@@ -40,6 +40,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  intl: ^0.17.0
+  date_time_format: ^2.0.1
+  url_launcher: ^6.1.7
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

@@ -1,11 +1,15 @@
 // import 'package:flutter/src/widgets/container.dart';
 // import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
+import '../models/petr_sticker.dart';
+import 'package:intl/intl.dart';
+import '../utils/utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PetrCard extends StatefulWidget {
   const PetrCard({super.key});
 
-  static final lineSpacing = 4.0;
+  static final lineSpacing = 4.0; // make const
 
   @override
   State<PetrCard> createState() => _PetrCardState();
@@ -13,7 +17,14 @@ class PetrCard extends StatefulWidget {
 
 class _PetrCardState extends State<PetrCard> {
   bool isLiked = false;
-  int likes = 0;
+  PetrSticker sticker = PetrSticker(
+    name: 'Illenium Petr',
+    creator: '@thepetrplug',
+    dropTime: DateTime.parse('2022-12-21 06:30:00Z').toLocal(),
+    numLikes: 69,
+    imgPath: 'assets/images/petr.png',
+    creatorLink: 'https://www.instagram.com/thepetrplug/',
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +39,7 @@ class _PetrCardState extends State<PetrCard> {
               children: <Widget>[
                 Center(
                   child: Image.asset(
-                    'assets/images/petr.png',
+                    sticker.imgPath,
                     scale: 5,
                   ),
                 ),
@@ -43,32 +54,37 @@ class _PetrCardState extends State<PetrCard> {
               ],
             ),
             SizedBox(height: PetrCard.lineSpacing),
-            const Text(
-              'Illenium Petr',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Inter',
-                  fontSize: 20),
+            Text(
+              sticker.name,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Inter',
+                fontSize: 20,
+              ),
             ),
             SizedBox(height: PetrCard.lineSpacing),
-            const Text('2:00 PM'
-
-                //we could do a time widget? i'll look that up
-                ),
+            Text(DateFormat.jm().format(sticker.dropTime)),
             SizedBox(height: PetrCard.lineSpacing),
-            const Text('Today'),
+            Text(getFormattedDate(sticker.dropTime)),
             SizedBox(height: PetrCard.lineSpacing),
-            const Text('@thepetrplug'),
+            InkWell(
+              onTap: () async =>
+                  await launchUrl(Uri.parse(sticker.creatorLink)),
+              child: Text(
+                sticker.creator,
+                style: const TextStyle(color: Colors.blue),
+              ),
+            ),
             SizedBox(height: PetrCard.lineSpacing),
             Row(
-              children: const <Widget>[
-                Icon(
+              children: <Widget>[
+                const Icon(
                   Icons.favorite,
                   color: Colors.pink,
                   size: 24.0,
                 ),
-                SizedBox(width: 10),
-                Text("250"),
+                const SizedBox(width: 10),
+                Text('${sticker.numLikes}'),
               ],
             ),
           ],
